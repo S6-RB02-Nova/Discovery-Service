@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: discovery
+spec:
+    selector:
+        matchLabels:
+            app: discovery
+    replicas: 1
+    template:
+        metadata:
+            labels:
+                app: discovery
+        spec:
+            containers:
+                -   name: discovery
+                    image: discovery:1.0
+                    ports:
+                        -   containerPort: 8888
+                    env:
+                        -   name: server.port
+                            value: "8888"
+                        -   name: eureka.instance.hostname
+                            value: eureka-server
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: discovery
+    labels:
+        app: discovery
+spec:
+    ports:
+        -   name: http
+            port: 8888
+            targetPort: 8888
+    selector:
+        app: discovery
+    type: ClusterIP
