@@ -16,6 +16,14 @@ spec:
             containers:
                 -   name: discovery
                     image: discovery:1.0
+                    imagePullPolicy: Never
+                    resources:
+                        requests:
+                            memory: "128Mi"
+                            cpu: "500m"
+                        limits:
+                            memory: "192Mi"
+                            cpu: "750m"
                     ports:
                         -   containerPort: 8888
                     env:
